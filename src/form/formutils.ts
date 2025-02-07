@@ -45,11 +45,14 @@ export const useApi = (): [
     };
 
     const calculate = (
-        settings: TakeoffInstance,
+        settingsIn: TakeoffInstance,
 
         validation: { ICAO: boolean; weight: boolean; CG: boolean }
     ) => {
         if (validation.ICAO || validation.weight || validation.CG) return;
+        const settings = {...settingsIn};
+        if(settings.isKG)
+            settings.tow *= 1000;
         const ret = FlexMath.calculateFlexDist(settings, airframe);
         const vSpeeds = FlexMath.CalculateVSpeeds(
             settings.availRunway,
@@ -166,6 +169,7 @@ export const useApi = (): [
                 v2: takeoffInvalid ? 0 : vSpeeds.v2,
                 speedSet: true,
                 message: takeoffInvalid ? m : '',
+                rw: runway ? runway.true : "",
             })
         );
     };
@@ -336,8 +340,8 @@ export const validateWeight = (
         MTOW: airframe.MTOW,
         EMPTY: airframe.OEW,
     };
-    return unit === 'KG'
-        ? weight < Weights.EMPTY || weight > Weights.MTOW
+    return unit === 'TONS'
+        ? weight * 1000 < Weights.EMPTY || weight * 1000 > Weights.MTOW
         : FlexMath.parseWeight(weight, false) < Weights.EMPTY ||
               FlexMath.parseWeight(weight, false) > Weights.MTOW;
 };

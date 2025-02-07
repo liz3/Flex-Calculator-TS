@@ -1,3 +1,8 @@
+export type Vmcg = {
+    heightMin: number;
+    heightMax: number;
+    speeds: number[];
+};
 export type Airframe = {
     name: string;
     Engines: string;
@@ -9,6 +14,7 @@ export type Airframe = {
     VSpeeds: AirframeVSpeeds;
     ISAIncrease: number;
     Trim: TrimTable;
+    vmcg?: Vmcg[];
 };
 
 export type TrimTable = {

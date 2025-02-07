@@ -36,6 +36,13 @@ export const a339: Airframe = {
         AltitudeCorrectionTable: [2000, 4000, 6000, 8000, 10000],
         StopDistanceDiffs: [50, 190, 110, 90, 140],
     },
+    vmcg: [
+        { heightMin: -Infinity, heightMax: 1999, speeds: [129, 129, 131] },
+        { heightMin: 2000, heightMax: 3999, speeds: [127, 127, 128] },
+        { heightMin: 4000, heightMax: 5999, speeds: [125, 125, 127] },
+        { heightMin: 6000, heightMax: 7999, speeds: [122, 122, 124] },
+        { heightMin: 8000, heightMax: Infinity, speeds: [118, 118, 120] },
+    ],
     VSpeeds: {
         // VSpeeds[Flaps][Weight] ; HDW A339X
         '1': {

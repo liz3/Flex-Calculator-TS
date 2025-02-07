@@ -176,6 +176,20 @@ const Form = (props: Props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [apiFormValidation]);
 
+    useEffect(() => {
+        if(formContent && formContent.weight)
+                setFormValidation((valid) => {
+            return {
+                ...valid,
+                weight: validateWeight(
+                    formContent.weight!,
+                    formContent?.weightUnit!,
+                    airframe
+                ),
+            };
+        });
+    }, [airframe, formContent]);
+
     const changeSettings = (setting: string, set: number | boolean) => {
         setSettings((current) => {
             return { ...current, [setting]: set };
@@ -269,8 +283,8 @@ const Form = (props: Props) => {
     };
 
     const handleManualWeightUnit = (unit: string) => {
-        const val = unit === 'LBS' ? 'LBS' : 'KG';
-        changeSettings('isKG', val === 'KG');
+        const val = unit === 'LBS' ? 'LBS' : 'TONS';
+        changeSettings('isKG', val === 'TONS');
         setFormValidation((valid) => {
             return {
                 ...valid,
@@ -284,8 +298,8 @@ const Form = (props: Props) => {
     };
 
     const handleChangeWeightUnit = (e: MouseEvent<HTMLButtonElement>) => {
-        const val = weightUnit === 'KG' ? 'LBS' : 'KG';
-        changeSettings('isKG', val === 'KG');
+        const val = weightUnit === 'TONS' ? 'LBS' : 'TONS';
+        changeSettings('isKG', val === 'TONS');
         setFormValidation((valid) => {
             return {
                 ...valid,
@@ -604,14 +618,13 @@ const Form = (props: Props) => {
                     onChange={handleWeightChange}
                     value={weightManual === 0 ? '' : weightManual}
                     inputProps={{
-                        step: '10',
                         min:
-                            formContent.weightUnit === 'KG'
-                                ? airframe.OEW
+                            formContent.weightUnit === 'TONS'
+                                ? airframe.OEW / 1000
                                 : airframe.OEW * 2.20462262185,
                         max:
-                            formContent.weightUnit === 'KG'
-                                ? airframe.MTOW
+                            formContent.weightUnit === 'TONS'
+                                ? airframe.MTOW / 1000
                                 : airframe.MTOW * 2.20462262185,
                     }}
                     InputProps={{

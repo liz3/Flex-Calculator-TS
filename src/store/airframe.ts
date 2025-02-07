@@ -19,6 +19,7 @@ export const airframeSlice = createSlice({
             state.ISAIncrease = action.payload.ISAIncrease;
             state.Trim = action.payload.Trim;
             state.name = action.payload.name;
+            state.vmcg = action.payload.vmcg;
         },
     },
 });

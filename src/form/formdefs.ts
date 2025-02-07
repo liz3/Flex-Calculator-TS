@@ -75,7 +75,7 @@ export const defaultFormContent: FormContent = {
     metar: '',
     runway: '',
     weight: 0,
-    weightUnit: 'KG',
+    weightUnit: 'TONS',
     cg: 0,
     flaps: '',
     rwCond: '',

@@ -380,6 +380,15 @@ export class FlexMath {
         return FlexMath.AltitudeCorrection(params, densityAltitude) + SDRef;
     }
 
+    static getVmcgCorrectedV1(airframe: Airframe, rwAlt: number, flaps: number, speed: number) {
+        if(!airframe.vmcg)
+            return speed;
+        const entry = airframe.vmcg.find(e => e.heightMin <= rwAlt && e.heightMax >= rwAlt);
+        if(!entry)
+            return speed;
+        return entry.speeds[flaps] > speed ? entry.speeds[flaps] : speed;
+    }
+
     static V1SpeedVer2(
         runwayAltitude: number,
         runwayLength: number,
@@ -436,7 +445,7 @@ export class FlexMath {
                 //return V1Candidate;
             }
         }
-        return V1Candidate;
+        return FlexMath.getVmcgCorrectedV1(airframe, runwayAltitude, flaps, V1Candidate);
     }
 
     static calculateStopDistanceReq(params: any) {
